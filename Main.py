@@ -29,6 +29,19 @@ def main():
     # Wczytanie planszy
     initial_layout, w, k = load_initial_layout(input_file)
 
+    if strategy == 'bfs':
+        from BFS import bfs
+        solution, stats = bfs(initial_layout, parameter)
+    # elif strategy == 'dfs':
+    #     from DFS import dfs
+    #     solution, stats = dfs(initial_layout, parameter)
+    # elif strategy == 'astr':
+    #     from AStar import astar
+    #     solution, stats = astar(initial_layout, parameter)
+    else:
+        print(f"Nieznana strategia: {strategy}")
+        sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
