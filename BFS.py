@@ -1,8 +1,9 @@
 from collections import deque
 
-import PuzzleState
+from PuzzleState import PuzzleState
 
-def bfs(start: PuzzleState)-> str:
+
+def bfs(start: PuzzleState) -> str:
     if start.is_goal():
         return start.path
 
@@ -21,4 +22,4 @@ def bfs(start: PuzzleState)-> str:
                 queue.append(neighbor)
                 visited.add(neighbor)
 
-    return "Fail" # można poprawić to
+    return "Fail"  # można poprawić to

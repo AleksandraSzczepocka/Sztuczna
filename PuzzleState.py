@@ -3,11 +3,25 @@ from collections import deque
 
 #zastanowić się czy int jest okej
 class PuzzleState:
-    def __init__(self, board: List[List[int]], zero_pos: Tuple[int, int], path: str = "", parameter: str = "LRUD"):
+    def __init__(self, board: List[List[int]], zero_pos: Tuple[int, int] = None, path: str = "",
+                 parameter: str = "LRUD"):
+        # Inicjalizacja planszy i ścieżki
         self.board = board
-        self.zero_pos = zero_pos  # row i col, gdzie znajduje się zero
         self.path = path  # np. "LDUR"
         self.parameter = parameter
+
+        # Jeśli zero_pos nie jest podane, obliczamy je
+        if zero_pos is None:
+            self.zero_pos = self.find_zero_pos()
+        else:
+            self.zero_pos = zero_pos
+
+    def find_zero_pos(self) -> Tuple[int, int]:
+        for i in range(len(self.board)):
+            for j in range(len(self.board[i])):
+                if self.board[i][j] == 0:
+                    return (i, j)
+        return None
 
     def is_goal(self) -> bool:
         goal = [
