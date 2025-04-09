@@ -3,10 +3,11 @@ from collections import deque
 
 #zastanowić się czy int jest okej
 class PuzzleState:
-    def __init__(self, board: List[List[int]], zero_pos: Tuple[int, int], path: str = ""):
+    def __init__(self, board: List[List[int]], zero_pos: Tuple[int, int], path: str = "", strategy: str = "LRUD"):
         self.board = board
         self.zero_pos = zero_pos  # row i col, gdzie znajduje się zero
         self.path = path  # np. "LDUR"
+        self.strategy = strategy
 
     def is_goal(self) -> bool:
         goal = [
@@ -26,9 +27,16 @@ class PuzzleState:
 
     def get_neighbours(self) -> List['PuzzleState']:
         neighbours = []
-        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        directions_map = {
+            'U': (-1, 0),
+            'D': (1, 0),
+            'L': (0, -1),
+            'R': (0, 1)
+        }
 
         x, y = self.zero_pos
+
+        directions = [directions_map[move] for move in self.strategy]
 
         for direction in directions:
             mx, my = directions[direction]

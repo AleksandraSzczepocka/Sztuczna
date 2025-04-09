@@ -1,7 +1,6 @@
 from collections import deque
 
-from Sztuczna import PuzzleState
-
+import PuzzleState
 
 def bfs(start: PuzzleState)-> str:
     if start.is_goal():
