@@ -14,7 +14,7 @@ def bfs(start: PuzzleState)-> str:
     while queue:
         current = queue.popleft()
 
-        for neighbor in current.neighbors:
+        for neighbor in current.get_neighbours():
             if neighbor not in visited:
                 if neighbor.is_goal():
                     return neighbor.path
