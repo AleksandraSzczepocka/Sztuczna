@@ -52,9 +52,11 @@ def main():
         solution, visited_count, processed_count, max_depth, time_taken = bfs(initial_state, parameter)
         save_solution(solution, solution_file)
         save_stats(stats_file, solution, visited_count, processed_count, max_depth, time_taken)
-    # elif strategy == 'dfs':
-    #     from DFS import dfs
-    #     solution, stats = dfs(initial_layout, parameter)
+    elif strategy == 'dfs':
+        from DFS import dfs
+        solution, visited_count, processed_count, max_depth, time_taken = dfs(initial_state, parameter)
+        save_solution(solution, solution_file)
+        save_stats(stats_file, solution, visited_count, processed_count, max_depth, time_taken)
     # elif strategy == 'astr':
     #     from AStar import astar
     #     solution, stats = astar(initial_layout, parameter)
