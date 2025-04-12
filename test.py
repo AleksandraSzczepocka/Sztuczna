@@ -7,9 +7,9 @@ initial_board = [
     [9, 6, 11, 12],
     [13, 10, 14, 15]
 ]
-parameter = "LRUD"
+parameter = "RLUD"
 
-start_state = PuzzleState(initial_board, parameter=parameter)
-solution = bfs(start_state)
+start_state = PuzzleState(initial_board)
+solution = bfs(start_state, parameter)
 
 print("Found solution:", solution)

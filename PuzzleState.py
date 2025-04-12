@@ -3,12 +3,10 @@ from collections import deque
 
 #zastanowić się czy int jest okej
 class PuzzleState:
-    def __init__(self, board: List[List[int]], zero_pos: Tuple[int, int] = None, path: str = "",
-                 parameter: str = "LRUD"):
-        # Inicjalizacja planszy i ścieżki
+    def __init__(self, board: List[List[int]], zero_pos: Tuple[int, int] = None, path: str = ""):
         self.board = board
-        self.path = path  # np. "LDUR"
-        self.parameter = parameter
+        self.path = path
+        self.zero_pos = zero_pos if zero_pos is not None else self.find_zero_pos()
 
         # Jeśli zero_pos nie jest podane, obliczamy je
         if zero_pos is None:
@@ -20,16 +18,14 @@ class PuzzleState:
         for i in range(len(self.board)):
             for j in range(len(self.board[i])):
                 if self.board[i][j] == 0:
-                    return (i, j)
+                    return i, j
         return None
 
     def is_goal(self) -> bool:
-        goal = [
-            [1, 2, 3, 4],
-            [5, 6, 7, 8],
-            [9, 10, 11, 12],
-            [13, 14, 15, 0]
-        ]
+        w, k = len(self.board), len(self.board[0])
+
+        goal = [[(i * k + j + 1) % (w * k) for j in range(k)] for i in range(w)] #można zapisać czytelniej...
+
         return self.board == goal
 
 
@@ -39,7 +35,7 @@ class PuzzleState:
     def __eq__(self, other):
         return self.board == other.board
 
-    def get_neighbours(self) -> List['PuzzleState']:
+    def get_neighbours(self, parameter: str) -> List['PuzzleState']:
         neighbours = []
         directions_map = {
             'U': (-1, 0),
@@ -50,14 +46,14 @@ class PuzzleState:
 
         x, y = self.zero_pos
 
-        for move in self.parameter:
+        for move in parameter:
             dx, dy = directions_map[move]
             new_x, new_y = x + dx, y + dy
 
             if 0 <= new_x < len(self.board) and 0 <= new_y < len(self.board[0]):
                 new_board = [row[:] for row in self.board]
                 new_board[x][y], new_board[new_x][new_y] = new_board[new_x][new_y], new_board[x][y]
-                neighbours.append(PuzzleState(new_board, (new_x, new_y), self.path + move, self.parameter))
+                neighbours.append(PuzzleState(new_board, (new_x, new_y), self.path + move))
 
         return neighbours
 

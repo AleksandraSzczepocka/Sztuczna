@@ -1,4 +1,5 @@
 import sys
+from PuzzleState import PuzzleState
 
 def load_initial_layout(filename):
     # Wczytanie układu początkowego z pliku
@@ -11,6 +12,22 @@ def load_initial_layout(filename):
                 raise ValueError("Nieprawidłowa liczba elementów w wierszu.")
             layout.append(row)
     return layout, w, k
+
+def save_solution(solution, filename):
+    with open(filename, 'w') as file:
+        if solution == "Fail":
+            file.write("-1/n")
+        else:
+            file.write(f"{len(solution)}\n")  # Długość rozwiązania
+            file.write(solution + "\n")  # Ciąg ruchów
+
+def save_stats(filename,solution, visited_count, processed_count, max_depth, time_taken):
+    with open(filename, 'w') as file:
+        file.write(f"{len(solution) if solution != 'Fail' else -1}\n")  # Długość rozwiązania
+        file.write(f"{visited_count}\n")  # Liczba odwiedzonych stanów
+        file.write(f"{processed_count}\n")  # Liczba przetworzonych stanów
+        file.write(f"{max_depth}\n")  # Maksymalna głębokość
+        file.write(f"{time_taken:.3f}\n")  # Czas trwania w sekundach, zaokrąglony do 3 miejsc
 
 
 def main():
@@ -28,10 +45,13 @@ def main():
 
     # Wczytanie planszy
     initial_layout, w, k = load_initial_layout(input_file)
+    initial_state = PuzzleState(initial_layout)
 
     if strategy == 'bfs':
         from BFS import bfs
-        solution, stats = bfs(initial_layout, parameter)
+        solution, visited_count, processed_count, max_depth, time_taken = bfs(initial_state, parameter)
+        save_solution(solution, solution_file)
+        save_stats(stats_file, solution, visited_count, processed_count, max_depth, time_taken)
     # elif strategy == 'dfs':
     #     from DFS import dfs
     #     solution, stats = dfs(initial_layout, parameter)
