@@ -1,5 +1,4 @@
 from typing import List, Tuple
-from collections import deque
 
 #zastanowić się czy int jest okej
 class PuzzleState:
@@ -56,5 +55,3 @@ class PuzzleState:
                 neighbours.append(PuzzleState(new_board, (new_x, new_y), self.path + move))
 
         return neighbours
-
-

@@ -9,7 +9,7 @@ def bfs(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float] 
     start_time = time.perf_counter()  # początek pomiary czasu
 
     if start.is_goal():
-        return start.path, 1, 1, 0, time.perf_counter() - start_time  # Statystyki przy natychmiastowym rozwiązaniu
+        return start.path, 1, 1, 0, time.perf_counter() - start_time
 
 
     visited = set()

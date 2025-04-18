@@ -1,5 +1,4 @@
 import time
-from collections import deque
 from typing import Any
 
 from PuzzleState import PuzzleState
@@ -28,7 +27,7 @@ def dfs(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float] 
             max_depth = max(max_depth, len(current.path))
 
             neighbors = current.get_neighbours(parameter)
-            neighbors.reverse()  # ważne dla DFS, by zachować kolejność zgodną ze schematem
+            neighbors.reverse()
 
             for neighbor in neighbors:
                 if neighbor.is_goal():
