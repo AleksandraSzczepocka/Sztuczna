@@ -12,10 +12,9 @@ def bfs(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float] 
         return start.path, 1, 1, 0, time.perf_counter() - start_time
 
 
-    visited = set()
-    queue = deque()
+    visited = set() #closed
+    queue = deque() #open
     queue.append(start)
-    visited.add(start)
 
     processed_count = 0
     visited_count = 1
@@ -23,15 +22,19 @@ def bfs(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float] 
 
     while queue:
         current = queue.popleft()
+        visited.add(current)
+        visited_count += 1
         processed_count += 1
         max_depth = max(max_depth, len(current.path))
 
         for neighbor in current.get_neighbours(parameter):
             if neighbor not in visited:
-                visited_count += 1
                 if neighbor.is_goal():
                     return neighbor.path, visited_count, processed_count, max_depth, time.perf_counter() - start_time
                 queue.append(neighbor)
+                visited_count += 1
                 visited.add(neighbor)
+                processed_count += 1
+                visited_count += 1
 
     return "Fail", visited_count, processed_count, max_depth, time.perf_counter() - start_time  # Statystyki, gdy brak rozwiązania

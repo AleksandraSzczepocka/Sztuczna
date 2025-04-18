@@ -11,10 +11,10 @@ def dfs(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float] 
     if start.is_goal():
         return start.path, 1, 1, 0, time.perf_counter() - start_time  # jeśli początek jest rozwiązaniem
 
-    stack = [start]
-    visited = set()
+    stack = [start] #open
+    visited = set() #closed
 
-    visited_count = 0
+    visited_count = 1
     processed_count = 0
     max_depth = 0
 
@@ -37,5 +37,6 @@ def dfs(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float] 
                 if neighbor.is_goal():
                     return neighbor.path, visited_count, processed_count, max_depth, time.perf_counter() - start_time
                 stack.append(neighbor)
+                visited_count += 1
 
     return "Fail", visited_count, processed_count, max_depth, time.perf_counter() - start_time  # brak rozwiązania
