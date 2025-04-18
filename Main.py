@@ -57,10 +57,11 @@ def main():
         solution, visited_count, processed_count, max_depth, time_taken = dfs(initial_state, parameter)
         save_solution(solution, solution_file)
         save_stats(stats_file, solution, visited_count, processed_count, max_depth, time_taken)
-    # elif strategy == 'astr':
-    #     solution, visited_count, processed_count, max_depth, time_taken = astar(initial_state, parameter)
-    #     save_solution(solution, solution_file)
-    #     save_stats(stats_file, solution, visited_count, processed_count, max_depth, time_taken)
+    elif strategy == 'astr':
+        from AStar import astar
+        solution, visited_count, processed_count, max_depth, time_taken = astar(initial_state, parameter)
+        save_solution(solution, solution_file)
+        save_stats(stats_file, solution, visited_count, processed_count, max_depth, time_taken)
     else:
         print(f"Nieznana strategia: {strategy}")
         sys.exit(1)

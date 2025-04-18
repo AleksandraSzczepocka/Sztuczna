@@ -30,12 +30,12 @@ def astar(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float
             visited_count += 1
             max_depth = max(max_depth, len(current.path))
 
-            neighbors = current.get_neighbours(parameter)
+            neighbors = current.get_neighbours()
 
             for neighbor in neighbors:
                 if neighbor not in visited:
-                    f = neighbor.cost + neighbor.heuristic(parameter)
-                    heapq.heappush(priority_queue, (f, neighbor))
+                    neighbor.f = neighbor.cost + neighbor.heuristic(parameter)
+                    heapq.heappush(priority_queue, (neighbor.f, neighbor))
 
             processed_count += 1
 

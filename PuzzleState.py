@@ -1,11 +1,14 @@
 from typing import List, Tuple
 
+
 #zastanowić się czy int jest okej
 class PuzzleState:
     def __init__(self, board: List[List[int]], zero_pos: Tuple[int, int] = None, path: str = ""):
         self.board = board
         self.path = path
         self.zero_pos = zero_pos if zero_pos is not None else self.find_zero_pos()
+        self.cost = len(path)
+        self.f = 0
 
         # Jeśli zero_pos nie jest podane, obliczamy je
         if zero_pos is None:
@@ -34,7 +37,10 @@ class PuzzleState:
     def __eq__(self, other):
         return self.board == other.board
 
-    def get_neighbours(self, parameter: str) -> List['PuzzleState']:
+    def __lt__(self, other):
+        return self.f < other.f
+
+    def get_neighbours(self, parameter: str = "UDLR") -> List['PuzzleState']:
         neighbours = []
         directions_map = {
             'U': (-1, 0),
@@ -55,3 +61,33 @@ class PuzzleState:
                 neighbours.append(PuzzleState(new_board, (new_x, new_y), self.path + move))
 
         return neighbours
+
+    def heuristic(self, method: str) -> int:
+        if method == "hamm":
+            return self.hamming()
+        elif method == "manh":
+            return self.manhattan()
+        else:
+            raise ValueError(f"Unknown heuristic method: {method}")
+
+    def manhattan(self) -> int:
+        distance = 0
+        w, k = len(self.board), len(self.board[0])
+        for i in range(w):
+            for j in range(k):
+                value = self.board[i][j]
+                if value != 0:
+                    target_x = (value - 1) // k
+                    target_y = (value - 1) % k
+                    distance += abs(target_x - i) + abs(target_y - j)
+        return distance
+
+    def hamming(self) -> int:
+        count = 0
+        w, k = len(self.board), len(self.board[0])
+        for i in range(w):
+            for j in range(k):
+                expected = ( i * k + j + 1) % (w * k)
+                if self.board[i][j] != 0 and self.board[i][j] != expected:
+                    count += 1
+        return count
