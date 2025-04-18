@@ -3,6 +3,7 @@ from typing import Any
 
 from PuzzleState import PuzzleState
 
+MAX_DEPTH = 20  # maksymalna dozwolona głębokość
 
 def dfs(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float] | str | Any:
     start_time = time.perf_counter()  # rozpoczęcie pomiaru czasu
@@ -25,6 +26,9 @@ def dfs(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float] 
             visited_count += 1
             processed_count += 1
             max_depth = max(max_depth, len(current.path))
+
+            if len(current.path) >= MAX_DEPTH:
+                continue  # pomijamy dalsze rozwijanie tego węzła
 
             neighbors = current.get_neighbours(parameter)
             neighbors.reverse()

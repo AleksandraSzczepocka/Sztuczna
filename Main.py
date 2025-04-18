@@ -16,7 +16,7 @@ def load_initial_layout(filename):
 def save_solution(solution, filename):
     with open(filename, 'w') as file:
         if solution == "Fail":
-            file.write("-1/n")
+            file.write("-1")
         else:
             file.write(f"{len(solution)}\n")  # Długość rozwiązania
             file.write(solution + "\n")  # Ciąg ruchów
