@@ -1,5 +1,6 @@
 import sys
 from PuzzleState import PuzzleState
+import os
 
 def load_initial_layout(filename):
     # Wczytanie układu początkowego z pliku
@@ -14,21 +15,40 @@ def load_initial_layout(filename):
     return layout, w, k
 
 def save_solution(solution, filename):
-    with open(filename, 'w') as file:
-        if solution == "Fail":
-            file.write("-1")
-        else:
-            file.write(f"{len(solution)}\n")  # Długość rozwiązania
-            file.write(solution + "\n")  # Ciąg ruchów
+    # Jeśli nie podano pełnej ścieżki, użyj bieżącego katalogu
+    if not os.path.dirname(filename):
+        filename = os.path.join(os.getcwd(), filename)
 
-def save_stats(filename,solution, visited_count, processed_count, max_depth, time_taken):
-    with open(filename, 'w') as file:
-        file.write(f"{len(solution) if solution != 'Fail' else -1}\n")  # Długość rozwiązania
-        file.write(f"{visited_count}\n")  # Liczba odwiedzonych stanów
-        file.write(f"{processed_count}\n")  # Liczba przetworzonych stanów
-        file.write(f"{max_depth}\n")  # Maksymalna głębokość
-        file.write(f"{time_taken:.3f}\n")  # Czas trwania w sekundach, zaokrąglony do 3 miejsc
+    # Sprawdzenie, czy katalog istnieje, jeśli nie, tworzymy go
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
 
+    try:
+        with open(filename, 'w') as file:
+            if solution == "Fail":
+                file.write("-1")
+            else:
+                file.write(f"{len(solution)}\n")  # Długość rozwiązania
+                file.write(solution + "\n")  # Ciąg ruchów
+    except Exception as e:
+        print(f"Błąd podczas zapisywania rozwiązania do pliku: {e}")
+
+def save_stats(filename, solution, visited_count, processed_count, max_depth, time_taken):
+    # Jeśli nie podano pełnej ścieżki, użyj bieżącego katalogu
+    if not os.path.dirname(filename):
+        filename = os.path.join(os.getcwd(), filename)
+
+    # Sprawdzenie, czy katalog istnieje, jeśli nie, tworzymy go
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+
+    try:
+        with open(filename, 'w') as file:
+            file.write(f"{len(solution) if solution != 'Fail' else -1}\n")  # Długość rozwiązania
+            file.write(f"{visited_count}\n")  # Liczba odwiedzonych stanów
+            file.write(f"{processed_count}\n")  # Liczba przetworzonych stanów
+            file.write(f"{max_depth}\n")  # Maksymalna głębokość
+            file.write(f"{time_taken:.3f}\n")  # Czas trwania w sekundach, zaokrąglony do 3 miejsc
+    except Exception as e:
+        print(f"Błąd podczas zapisywania statystyk do pliku: {e}")
 
 def main():
     # Sprawdzenie liczby argumentów
@@ -65,7 +85,6 @@ def main():
     else:
         print(f"Nieznana strategia: {strategy}")
         sys.exit(1)
-
 
 if __name__ == "__main__":
     main()
