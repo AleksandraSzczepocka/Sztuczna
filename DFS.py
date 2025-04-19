@@ -9,7 +9,7 @@ def dfs(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float] 
     start_time = time.perf_counter()  # rozpoczęcie pomiaru czasu
 
     if start.is_goal():
-        return start.path, 1, 1, 0, time.perf_counter() - start_time  # jeśli początek jest rozwiązaniem
+        return start.path, 1, 0, 0, time.perf_counter() - start_time  # jeśli początek jest rozwiązaniem
 
     stack = [start] #open
     visited = set() #closed
@@ -23,7 +23,7 @@ def dfs(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float] 
 
         if current not in visited:
             visited.add(current)
-            visited_count += 1
+            #visited_count += 1
             processed_count += 1
             max_depth = max(max_depth, len(current.path))
 

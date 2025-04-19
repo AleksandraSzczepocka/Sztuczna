@@ -21,6 +21,8 @@ def astar(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float
 
     while priority_queue:
         _, current = heapq.heappop(priority_queue)
+        processed_count += 1
+        max_depth = max(max_depth, len(current.path))
 
         if current not in visited:
             if current.is_goal():
@@ -28,8 +30,6 @@ def astar(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float
 
             visited.add(current)
             visited_count += 1
-            processed_count += 1
-            max_depth = max(max_depth, len(current.path))
 
             neighbors = current.get_neighbours()
 
@@ -37,6 +37,6 @@ def astar(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float
                 if neighbor not in visited:
                     neighbor.f = neighbor.cost + neighbor.heuristic(parameter)
                     heapq.heappush(priority_queue, (neighbor.f, neighbor))
-                    visited_count += 1
+                    #visited_count += 1
 
     return "Fail", visited_count, processed_count, max_depth, time.perf_counter() - start_time
