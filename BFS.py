@@ -1,11 +1,11 @@
 import time
 from collections import deque
-from typing import Any
+from typing import Union, Tuple
 
 from PuzzleState import PuzzleState
 
 
-def bfs(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float] | str | Any:
+def bfs(start: PuzzleState, parameter: str) -> Union[Tuple[str, int, int, int, float], str]:
     start_time = time.perf_counter()  # początek pomiary czasu
 
     if start.is_goal():
@@ -15,6 +15,7 @@ def bfs(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float] 
     visited = set() #closed
     queue = deque() #open
     queue.append(start)
+    visited.add(start)
 
     processed_count = 0
     visited_count = 1
@@ -22,7 +23,7 @@ def bfs(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float] 
 
     while queue:
         current = queue.popleft()
-        visited.add(current)
+        #visited.add(current) powtarzają się wtedy niepotrzebnie
         visited_count += 1
         processed_count += 1
         max_depth = max(max_depth, len(current.path))

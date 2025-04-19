@@ -1,11 +1,11 @@
 import time
 import heapq
-from typing import Any
+from typing import Tuple, Union
 
 from PuzzleState import PuzzleState
 
 
-def astar(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float] | str | Any:
+def astar(start: PuzzleState, parameter: str) -> Union[Tuple[str, int, int, int, float], str]:
     start_time = time.perf_counter()
 
     if start.is_goal():

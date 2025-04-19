@@ -1,11 +1,11 @@
 import time
-from typing import Any
+from typing import Union, Tuple
 
 from PuzzleState import PuzzleState
 
 MAX_DEPTH = 20  # maksymalna dozwolona głębokość
 
-def dfs(start: PuzzleState, parameter: str) -> tuple[str, int, int, int, float] | str | Any:
+def dfs(start: PuzzleState, parameter: str) -> Union[Tuple[str, int, int, int, float], str]:
     start_time = time.perf_counter()  # rozpoczęcie pomiaru czasu
 
     if start.is_goal():
