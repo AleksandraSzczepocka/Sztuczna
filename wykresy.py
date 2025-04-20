@@ -85,7 +85,7 @@ for criterion, title in criteria.items():
 
     # A* - heurystyki
     ax = axs[0, 1]
-    astar_df = df[df['method'] == 'A*']
+    astar_df = df[df['method'] == 'ASTR']
     if not astar_df.empty:
         avg_astar = astar_df.groupby(['depth', 'variant'])[criterion].mean().unstack()
         avg_astar.plot(kind='bar', ax=ax)
