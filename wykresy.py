@@ -68,6 +68,10 @@ criteria = {
 
 # Rysowanie wykresów
 for criterion, title in criteria.items():
+    filtered_df = df.copy()
+    if criterion == 'length':
+        filtered_df = filtered_df[filtered_df['length'] != -1]
+
     fig, axs = plt.subplots(2, 2, figsize=(10, 8))
     fig.suptitle(title)
 
