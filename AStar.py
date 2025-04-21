@@ -9,7 +9,7 @@ def astar(start: PuzzleState, parameter: str) -> Union[Tuple[str, int, int, int,
     start_time = time.perf_counter()
 
     if start.is_goal():
-        return start.path, 1, 0, 1, time.perf_counter() - start_time
+        return start.path, 1, 0, 0, time.perf_counter() - start_time
 
     priority_queue = []
     heapq.heappush(priority_queue, (start.cost + start.heuristic(parameter), start))
