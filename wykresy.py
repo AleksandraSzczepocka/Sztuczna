@@ -77,6 +77,7 @@ for criterion, crit in criteria.items():
     # Ogółem BFS, DFS, A*
     ax = axs[0, 0]
     avg_general = df.groupby(['depth', 'method'])[criterion].mean().unstack()
+    avg_general.rename(columns={'ASTR': 'A*'}, inplace=True)
     avg_general.plot(kind='bar', ax=ax)
     ax.tick_params(axis='x', labelrotation=0)
     ax.legend(title=None)
@@ -102,6 +103,8 @@ for criterion, crit in criteria.items():
         avg_astar.plot(kind='bar', ax=ax)
         ax.tick_params(axis='x', labelrotation=0)
         ax.legend(title=None)
+        if criterion == 'time':
+            ax.set_ylim(bottom=0.0009)
     ax.set_title("A*")
     ax.set_xlabel("")
 
