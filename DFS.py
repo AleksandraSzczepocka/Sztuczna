@@ -1,5 +1,7 @@
+import math
 import time
 from typing import Union, Tuple
+from Utils import round_up_3
 
 from PuzzleState import PuzzleState
 
@@ -9,20 +11,20 @@ def dfs(start: PuzzleState, parameter: str) -> Union[Tuple[str, int, int, int, f
     start_time = time.perf_counter()  # rozpoczęcie pomiaru czasu
 
     if start.is_goal():
-        return start.path, 1, 0, 0, time.perf_counter() - start_time  # jeśli początek jest rozwiązaniem
+        return start.path, 1, 0, 0, round_up_3(time.perf_counter() - start_time)  # jeśli początek jest rozwiązaniem
 
-    stack = [start] #open
-    visited = set() #closed
+    open_stack = [start] #open
+    closed_set = set() #closed
 
     visited_count = 1
     processed_count = 0
     max_depth = 0
 
-    while stack:
-        current = stack.pop()
+    while open_stack:
+        current = open_stack.pop()
 
-        if current not in visited:
-            visited.add(current)
+        if current not in closed_set:
+            closed_set.add(current)
             processed_count += 1
             max_depth = max(max_depth, len(current.path))
 
@@ -35,8 +37,8 @@ def dfs(start: PuzzleState, parameter: str) -> Union[Tuple[str, int, int, int, f
             for neighbor in neighbors:
                 if neighbor.is_goal():
                     max_depth = max(max_depth, len(neighbor.path))
-                    return neighbor.path, visited_count, processed_count, max_depth + 1, time.perf_counter() - start_time
-                stack.append(neighbor)
+                    return neighbor.path, visited_count, processed_count, max_depth + 1, round_up_3(time.perf_counter() - start_time)
+                open_stack.append(neighbor)
                 visited_count += 1
 
-    return "Fail", visited_count, processed_count, max_depth, time.perf_counter() - start_time  # brak rozwiązania
+    return "Fail", visited_count, processed_count, max_depth, round_up_3(time.perf_counter() - start_time)  # brak rozwiązania
