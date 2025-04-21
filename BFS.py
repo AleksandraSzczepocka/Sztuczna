@@ -1,4 +1,3 @@
-import math
 import time
 from collections import deque
 from typing import Union, Tuple
@@ -33,7 +32,7 @@ def bfs(start: PuzzleState, parameter: str) -> Union[Tuple[str, int, int, int, f
             if neighbor not in closed_set:
                 if neighbor.is_goal():
                     max_depth = max(max_depth, len(neighbor.path))
-                    return neighbor.path, visited_count, processed_count, round_up_3(time.perf_counter() - start_time)
+                    return neighbor.path, visited_count, processed_count, max_depth, round_up_3(time.perf_counter() - start_time)
                 open_queue.append(neighbor)
                 closed_set.add(neighbor)
                 visited_count += 1

@@ -1,4 +1,3 @@
-import math
 import time
 from typing import Union, Tuple
 from Utils import round_up_3
@@ -13,8 +12,8 @@ def dfs(start: PuzzleState, parameter: str) -> Union[Tuple[str, int, int, int, f
     if start.is_goal():
         return start.path, 1, 0, 0, round_up_3(time.perf_counter() - start_time)  # jeśli początek jest rozwiązaniem
 
-    open_stack = [start] #open
-    closed_set = set() #closed
+    open_stack = [start]
+    closed_set = set()
 
     visited_count = 1
     processed_count = 0

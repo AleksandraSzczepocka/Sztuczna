@@ -1,9 +1,7 @@
-import math
 import time
 import heapq
 from typing import Tuple, Union
 from Utils import round_up_3
-
 
 from PuzzleState import PuzzleState
 

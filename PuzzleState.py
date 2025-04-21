@@ -8,7 +8,6 @@ class PuzzleState:
         self.cost = len(path)
         self.f = 0
 
-        # Jeśli zero_pos nie jest znane, obliczyć je
         if zero_pos is None:
             self.zero_pos = self.find_zero_pos()
         else:
