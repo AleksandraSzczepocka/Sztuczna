@@ -9,7 +9,7 @@ def dfs(start: PuzzleState, parameter: str) -> Union[Tuple[str, int, int, int, f
     start_time = time.perf_counter()  # rozpoczęcie pomiaru czasu
 
     if start.is_goal():
-        return start.path, 1, 1, 0, time.perf_counter() - start_time  # jeśli początek jest rozwiązaniem
+        return start.path, 1, 0, 1, time.perf_counter() - start_time  # jeśli początek jest rozwiązaniem
 
     stack = [start] #open
     visited = set() #closed
@@ -23,7 +23,6 @@ def dfs(start: PuzzleState, parameter: str) -> Union[Tuple[str, int, int, int, f
 
         if current not in visited:
             visited.add(current)
-            visited_count += 1
             processed_count += 1
             max_depth = max(max_depth, len(current.path))
 
@@ -35,6 +34,7 @@ def dfs(start: PuzzleState, parameter: str) -> Union[Tuple[str, int, int, int, f
 
             for neighbor in neighbors:
                 if neighbor.is_goal():
+                    max_depth = max(max_depth, len(current.path))
                     return neighbor.path, visited_count, processed_count, max_depth, time.perf_counter() - start_time
                 stack.append(neighbor)
                 visited_count += 1
