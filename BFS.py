@@ -9,7 +9,7 @@ def bfs(start: PuzzleState, parameter: str) -> Union[Tuple[str, int, int, int, f
     start_time = time.perf_counter()  # początek pomiary czasu
 
     if start.is_goal():
-        return start.path, 1, 0, 1, time.perf_counter() - start_time
+        return start.path, 1, 0, 0, time.perf_counter() - start_time
 
 
     visited = set() #closed
@@ -30,7 +30,7 @@ def bfs(start: PuzzleState, parameter: str) -> Union[Tuple[str, int, int, int, f
         for neighbor in current.get_neighbours(parameter):
             if neighbor not in visited:
                 if neighbor.is_goal():
-                    max_depth = max(max_depth, len(current.path))
+                    max_depth = max(max_depth, len(neighbor.path))
                     return neighbor.path, visited_count, processed_count, max_depth, time.perf_counter() - start_time
                 queue.append(neighbor)
                 visited.add(neighbor)
