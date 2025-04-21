@@ -1,7 +1,5 @@
 from typing import List, Tuple
 
-
-#zastanowić się czy int jest okej
 class PuzzleState:
     def __init__(self, board: List[List[int]], zero_pos: Tuple[int, int] = None, path: str = ""):
         self.board = board
@@ -10,7 +8,7 @@ class PuzzleState:
         self.cost = len(path)
         self.f = 0
 
-        # Jeśli zero_pos nie jest podane, obliczamy je
+        # Jeśli zero_pos nie jest znane, obliczyć je
         if zero_pos is None:
             self.zero_pos = self.find_zero_pos()
         else:
@@ -25,8 +23,18 @@ class PuzzleState:
 
     def is_goal(self) -> bool:
         w, k = len(self.board), len(self.board[0])
+        counter = 1
+        goal = []
 
-        goal = [[(i * k + j + 1) % (w * k) for j in range(k)] for i in range(w)] #można zapisać czytelniej...
+        for i in range(w):
+            row = []
+            for j in range(k):
+                if i == w - 1 and j == k - 1:
+                    row.append(0)
+                else:
+                    row.append(counter)
+                    counter += 1
+            goal.append(row)
 
         return self.board == goal
 
