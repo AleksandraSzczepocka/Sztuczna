@@ -67,13 +67,12 @@ criteria = {
 }
 
 # Rysowanie wykresów
-for criterion, title in criteria.items():
+for criterion, crit in criteria.items():
     filtered_df = df.copy()
     if criterion == 'length':
         filtered_df = filtered_df[filtered_df['length'] != -1]
 
     fig, axs = plt.subplots(2, 2, figsize=(10, 8))
-    fig.suptitle(title)
 
     # Ogółem BFS, DFS, A*
     ax = axs[0, 0]
@@ -81,16 +80,26 @@ for criterion, title in criteria.items():
     avg_general.plot(kind='bar', ax=ax)
     ax.legend(title=None)
     ax.set_title("Ogółem")
-    ax.set_ylabel("Kryterium")
+    ax.set_ylabel(crit)
+    ax.set_xlabel("")
 
     # A* - heurystyki
     ax = axs[0, 1]
     astar_df = df[df['method'] == 'ASTR']
     if not astar_df.empty:
+        # Podmień skróty na pełne nazwy
+        heuristic_names = {
+            "HAMM": "Hamming",
+            "MANH": "Manhattan"
+        }
+        astar_df = astar_df.copy()
+        astar_df['variant'] = astar_df['variant'].map(heuristic_names).fillna(astar_df['variant'])
+
         avg_astar = astar_df.groupby(['depth', 'variant'])[criterion].mean().unstack()
         avg_astar.plot(kind='bar', ax=ax)
         ax.legend(title=None)
     ax.set_title("A*")
+    ax.set_xlabel("")
 
     # BFS - porządki
     ax = axs[1, 0]
@@ -100,6 +109,7 @@ for criterion, title in criteria.items():
         avg_bfs.plot(kind='bar', ax=ax)
         ax.legend(title=None)
     ax.set_title("BFS")
+    ax.set_ylabel(crit)
     ax.set_xlabel("Głębokość")
 
     # DFS - porządki
