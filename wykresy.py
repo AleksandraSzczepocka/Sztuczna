@@ -72,16 +72,19 @@ for criterion, crit in criteria.items():
     if criterion == 'length':
         filtered_df = filtered_df[filtered_df['length'] != -1]
 
-    fig, axs = plt.subplots(2, 2, figsize=(10, 8))
+    fig, axs = plt.subplots(2, 2, figsize=(14, 11))
 
     # Ogółem BFS, DFS, A*
     ax = axs[0, 0]
     avg_general = df.groupby(['depth', 'method'])[criterion].mean().unstack()
     avg_general.plot(kind='bar', ax=ax)
+    ax.tick_params(axis='x', labelrotation=0)
     ax.legend(title=None)
     ax.set_title("Ogółem")
     ax.set_ylabel(crit)
     ax.set_xlabel("")
+    if criterion not in ['max_depth', 'length']:
+        ax.set_yscale('log')
 
     # A* - heurystyki
     ax = axs[0, 1]
@@ -97,6 +100,7 @@ for criterion, crit in criteria.items():
 
         avg_astar = astar_df.groupby(['depth', 'variant'])[criterion].mean().unstack()
         avg_astar.plot(kind='bar', ax=ax)
+        ax.tick_params(axis='x', labelrotation=0)
         ax.legend(title=None)
     ax.set_title("A*")
     ax.set_xlabel("")
@@ -107,10 +111,13 @@ for criterion, crit in criteria.items():
     if not bfs_df.empty:
         avg_bfs = bfs_df.groupby(['depth', 'variant'])[criterion].mean().unstack()
         avg_bfs.plot(kind='bar', ax=ax)
+        ax.tick_params(axis='x', labelrotation=0)
         ax.legend(title=None)
     ax.set_title("BFS")
     ax.set_ylabel(crit)
     ax.set_xlabel("Głębokość")
+    if criterion not in ['max_depth', 'length']:
+        ax.set_yscale('log')
 
     # DFS - porządki
     ax = axs[1, 1]
@@ -118,9 +125,12 @@ for criterion, crit in criteria.items():
     if not dfs_df.empty:
         avg_dfs = dfs_df.groupby(['depth', 'variant'])[criterion].mean().unstack()
         avg_dfs.plot(kind='bar', ax=ax)
+        ax.tick_params(axis='x', labelrotation=0)
         ax.legend(title=None)
     ax.set_title("DFS")
     ax.set_xlabel("Głębokość")
+    if criterion not in ['max_depth', 'length']:
+        ax.set_yscale('log')
 
     plt.tight_layout()
     plt.subplots_adjust(top=0.88)
