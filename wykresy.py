@@ -72,17 +72,18 @@ for criterion, crit in criteria.items():
     if criterion == 'length':
         filtered_df = filtered_df[filtered_df['length'] != -1]
 
-    fig, axs = plt.subplots(2, 2, figsize=(14, 11))
+    fig, axs = plt.subplots(2, 2, figsize=(14, 10))
 
     # Ogółem BFS, DFS, A*
     ax = axs[0, 0]
     avg_general = df.groupby(['depth', 'method'])[criterion].mean().unstack()
     avg_general.rename(columns={'ASTR': 'A*'}, inplace=True)
     avg_general.plot(kind='bar', ax=ax)
-    ax.tick_params(axis='x', labelrotation=0)
+    ax.tick_params(axis='x', labelrotation=0, labelsize=12)
+    ax.tick_params(axis='y', labelsize=12)
     ax.legend(title=None)
-    ax.set_title("Ogółem")
-    ax.set_ylabel(crit)
+    ax.set_title("Ogółem", fontsize=16)
+    ax.set_ylabel(crit, fontsize=14)
     ax.set_xlabel("")
     if criterion not in ['max_depth', 'length']:
         ax.set_yscale('log')
@@ -101,11 +102,12 @@ for criterion, crit in criteria.items():
 
         avg_astar = astar_df.groupby(['depth', 'variant'])[criterion].mean().unstack()
         avg_astar.plot(kind='bar', ax=ax)
-        ax.tick_params(axis='x', labelrotation=0)
+        ax.tick_params(axis='x', labelrotation=0, labelsize=12)
+        ax.tick_params(axis='y', labelsize=12)
         ax.legend(title=None)
         if criterion == 'time':
             ax.set_ylim(bottom=0.0009)
-    ax.set_title("A*")
+    ax.set_title("A*", fontsize=16)
     ax.set_xlabel("")
 
     # BFS - porządki
@@ -114,11 +116,12 @@ for criterion, crit in criteria.items():
     if not bfs_df.empty:
         avg_bfs = bfs_df.groupby(['depth', 'variant'])[criterion].mean().unstack()
         avg_bfs.plot(kind='bar', ax=ax)
-        ax.tick_params(axis='x', labelrotation=0)
+        ax.tick_params(axis='x', labelrotation=0, labelsize=12)
+        ax.tick_params(axis='y', labelsize=12)
         ax.legend(title=None)
-    ax.set_title("BFS")
-    ax.set_ylabel(crit)
-    ax.set_xlabel("Głębokość")
+    ax.set_title("BFS", fontsize=16)
+    ax.set_ylabel(crit, fontsize=14)
+    ax.set_xlabel("Głębokość", fontsize=14)
     if criterion not in ['max_depth', 'length']:
         ax.set_yscale('log')
 
@@ -128,10 +131,11 @@ for criterion, crit in criteria.items():
     if not dfs_df.empty:
         avg_dfs = dfs_df.groupby(['depth', 'variant'])[criterion].mean().unstack()
         avg_dfs.plot(kind='bar', ax=ax)
-        ax.tick_params(axis='x', labelrotation=0)
+        ax.tick_params(axis='x', labelrotation=0, labelsize=12)
+        ax.tick_params(axis='y', labelsize=12)
         ax.legend(title=None)
-    ax.set_title("DFS")
-    ax.set_xlabel("Głębokość")
+    ax.set_title("DFS", fontsize=16)
+    ax.set_xlabel("Głębokość", fontsize=14)
     if criterion not in ['max_depth', 'length']:
         ax.set_yscale('log')
 
