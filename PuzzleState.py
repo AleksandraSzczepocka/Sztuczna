@@ -8,11 +8,6 @@ class PuzzleState:
         self.cost = len(path)
         self.f = 0
 
-        if zero_pos is None:
-            self.zero_pos = self.find_zero_pos()
-        else:
-            self.zero_pos = zero_pos
-
     def find_zero_pos(self) -> Tuple[int, int]:
         for i in range(len(self.board)):
             for j in range(len(self.board[i])):
